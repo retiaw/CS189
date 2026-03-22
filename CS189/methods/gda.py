@@ -4,13 +4,13 @@ from CS189.methods.base import Method
 from CS189.lib.data import data_nan_process
 
 
-class GDA_Method(Method):
+class GDAMethod(Method):
     def __init__(self, args, info):
         super().__init__(args, info)
         assert self.info['task_type'] != 'regression'
     
 
-class SK_LDA_Method(GDA_Method):
+class SKLearnLDAMethod(GDAMethod):
     def __init__(self, args, info):
         super().__init__(args, info)
         from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
@@ -32,7 +32,7 @@ class SK_LDA_Method(GDA_Method):
         return vres, metric_names, pred
     
 
-class MyLDA_Method(GDA_Method):
+class MyLDAMethod(GDAMethod):
     def __init__(self, args, info):
         super().__init__(args, info)
     
@@ -67,7 +67,7 @@ class MyLDA_Method(GDA_Method):
         return vres, metric_names, pred
 
 
-class SK_QDA_Method(GDA_Method):
+class SKLearnQDAMethod(GDAMethod):
     def __init__(self, args, info):
         super().__init__(args, info)
         from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
@@ -87,7 +87,7 @@ class SK_QDA_Method(GDA_Method):
         return vres, metric_names, pred
 
 
-class MyQDA_Method(GDA_Method):
+class MyQDAMethod(GDAMethod):
     def __init__(self, args, info):
         super().__init__(args, info)
         self.lamda = 1e-3

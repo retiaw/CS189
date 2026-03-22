@@ -116,21 +116,21 @@ def get_method(model_type: str):
         from CS189.methods.linear_reg import SKLearnLinearRegressionMethod
         return SKLearnLinearRegressionMethod
     elif model_type == 'my_lda':
-        from CS189.methods.gda import MyLDA_Method
-        return MyLDA_Method
+        from CS189.methods.gda import MyLDAMethod
+        return MyLDAMethod
     elif model_type == 'sk_lda':
-        from CS189.methods.gda import SK_LDA_Method
-        return SK_LDA_Method
+        from CS189.methods.gda import SKLearnLDAMethod
+        return SKLearnLDAMethod
     elif model_type == 'my_qda':
-        from CS189.methods.gda import MyQDA_Method
-        return MyQDA_Method
+        from CS189.methods.gda import MyQDAMethod
+        return MyQDAMethod
     elif model_type == 'sk_qda':
-        from CS189.methods.gda import SK_QDA_Method
-        return SK_QDA_Method
+        from CS189.methods.gda import SKLearnQDAMethod
+        return SKLearnQDAMethod
 
     else:
         raise ValueError('Unsupported model type: {model_type}\n \
-                          Supported model types: my_linear_reg, sk_linear_reg')
+                          Supported model types: my_linear_reg, sk_linear_reg, my_lda, sk_lda, my_qda, sk_qda')
 
 
 
