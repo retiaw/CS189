@@ -1,5 +1,8 @@
 {
     "data_path": "/Users/dk/waiter/tabular ML/data",
-    "data_name": "ada",
-    "model_type": "linear_reg"
+    "data_name": "Abalone_reg",
+    "model_type": "my_linear_reg",
+    "nan_policy": "mean",
+    "norm_policy": "mean_std",
+    "y_policy": "mean_std"
 }

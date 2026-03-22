@@ -4,6 +4,57 @@ import os.path as osp
 import json
 
 
+def data_nan_process(X, nan_policy='mean', new_values=None):
+    mask = ~np.isnan(X)
+    if new_values is None:
+        new_values = {}
+    if nan_policy == 'mean':
+        new_values['mean'] = np.nanmean(X, axis=0, keepdims=True)
+        X = np.where(mask, X, new_values['mean'])
+    elif nan_policy == 'median':
+        new_values['median'] = np.nanmedian(X, axis=0, keepdims=True)
+        X = np.where(mask, X, new_values['median'])
+    else:
+        raise ValueError(f'Unsupported nan policy: {nan_policy}')
+    return X, new_values
+
+
+def data_norm_process(X, norm_policy='mean_std', normalizer=None):
+    if normalizer is None:
+        normalizer = {}
+    if norm_policy == 'mean_std':
+        normalizer['mean'] = np.mean(X, axis=0, keepdims=True)
+        normalizer['std'] = np.std(X, axis=0, keepdims=True)
+        X = (X - normalizer['mean']) / (normalizer['std'] + 1e-6)
+    elif norm_policy == 'min_max':
+        normalizer['min'] = np.min(X, axis=0, keepdims=True)
+        normalizer['max'] = np.max(X, axis=0, keepdims=True)
+        X = (X - normalizer['min']) / (normalizer['max'] - normalizer['min'])
+    else:
+        raise ValueError(f'Unsupported norm policy: {norm_policy}')
+    return X, normalizer
+
+
+def label_process(y, y_policy='mean_std', is_regression=False,label_encoder=None):
+    y = y.astype(float).reshape(-1) # y -> [b,]
+
+    if label_encoder is None:
+        label_encoder = {}
+    if y_policy == 'mean_std':
+        label_encoder['mean'] = np.mean(y)
+        label_encoder['std'] = np.std(y)
+        y = (y - label_encoder['mean']) / (label_encoder['std'] + 1e-6)
+    elif y_policy == 'min_max':
+        label_encoder['min'] = np.min(y)
+        label_encoder['max'] = np.max(y)
+        y = (y - label_encoder['min']) / (label_encoder['max'] - label_encoder['min'])
+    elif y_policy == 'none':
+        pass
+    else:
+        raise ValueError(f'Unsupported y policy: {y_policy}')
+    return y, label_encoder
+
+
 def data_loader_process(X, y, batch_size, shuffle=False, seed=None, device='cpu'):
     if seed is not None:
         rng = np.random.default_rng(seed=seed)
