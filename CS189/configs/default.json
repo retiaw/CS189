@@ -1,0 +1,5 @@
+{
+    "data_path": "/Users/dk/waiter/tabular ML/data",
+    "data_name": "ada",
+    "model_type": "linear_reg"
+}
